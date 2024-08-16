@@ -38,5 +38,5 @@ app.use('/logs', logs);
 
 const port = process.env.PORT;
 app.listen(port, () => {
-    console(`Server is up and running on port ${port}`);
+    console.log(`Server is up and running on port ${port}`);
 })

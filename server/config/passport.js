@@ -2,7 +2,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const db = require('../db');
-const validPassword = require('../lib/passwordUtils').validPassword;
+const validatePassword = require('../lib/passwordUtils').validatePassword;
 
 const customFields = {
     usernameField: 'uname',
@@ -11,6 +11,7 @@ const customFields = {
 
 const verifyCallback = async (username, password, done) => {
     try {
+        console.log('authenticating...')
         const {rows} = await db.query('SELECT * FROM users WHERE username = $1', [username]);
         const user = rows[0];
 
@@ -18,7 +19,7 @@ const verifyCallback = async (username, password, done) => {
             return done(null, false, {message: 'Incorrect username'});
         }
 
-        const isValid = validPassword(password, user.hashpassword, user.salt);
+        const isValid = validatePassword(password, user.hashpassword, user.salt);
         
         if(isValid){
             return done(null, user);
