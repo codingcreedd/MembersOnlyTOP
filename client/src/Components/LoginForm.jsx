@@ -8,22 +8,26 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const {authState, setAuthState, setUser} = useContext(Context);
+    const {setAuthState, setUser} = useContext(Context);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-          const response = await logs.post('/login', { uname: username, pw: password });
-          console.log(response)
-          const user = response.data;
-          if (user.message === 'Login failed' && !user.user) {
-            setAuthState(false);
-          } else {
-            setAuthState(true);
-            setUser(user.user);
-            navigate('/');
-          }
+          await logs.post('/login', { uname: username, pw: password })
+            .then((response) => {
+                console.log(response)
+                const user = response.data.user;
+                if (response.data.message === 'Login failed' && !user) {
+                    setAuthState(false);
+                } else {
+                    // setAuthState(true);
+                    setUser(user); //set the user id
+                    console.log(user)
+                    navigate('/');
+                }
+            })
+            
         } catch (err) {
           console.log(err);
         }

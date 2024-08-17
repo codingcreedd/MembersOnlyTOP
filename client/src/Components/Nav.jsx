@@ -1,10 +1,23 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from './ContextProvider';
+import logs from '../apis/logs';
 
 const Nav = () => {
   
-  const {user, setUser, authState, setAuthState} = useContext(Context);
+  const {user, setUser, authState, setAuthState, userInfo} = useContext(Context);
+
+  const logout = async () => {
+    try {
+      await logs.get('/logout/user-logout')
+        .then(response => {
+          console.log(response.data.message);
+          setAuthState(false);
+        })
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <nav className="bg-gray-900 h-16 flex justify-between items-center px-4">
@@ -19,7 +32,7 @@ const Nav = () => {
           ) : (
             <div className='flex text-white items-center'>
               {user.first_name}
-              <button className='ml-10 px-10 py-2 bg-white rounded-lg text-black font-bold text-sm'>Logout</button>
+              <button onClick={logout}  className='ml-10 px-10 py-2 bg-white rounded-lg text-black font-bold text-sm'>Logout</button>
             </div>
           )
         }
