@@ -8,11 +8,12 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const {setAuthState, setUser} = useContext(Context);
+    const {setAuthState, setUser, setLoading} = useContext(Context);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
           await logs.post('/login', { uname: username, pw: password })
             .then((response) => {
@@ -21,11 +22,10 @@ const LoginForm = () => {
                 if (response.data.message === 'Login failed' && !user) {
                     setAuthState(false);
                 } else {
-                    // setAuthState(true);
                     setUser(user); //set the user id
-                    console.log(user)
                     navigate('/');
                 }
+                setLoading(false);
             })
             
         } catch (err) {

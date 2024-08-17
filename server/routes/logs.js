@@ -34,7 +34,7 @@ router.post('/login', passport.authenticate('local'), (req, res, next) => {
 
 router.get('/', (req, res) => {
     console.log('Log App');
-    res.status(200).json({message: 'Ran App'})
+    res.status(200).json({message: 'Ran App', user: req.session.passport.user})
 })
 
 router.get('/:id', async (req, res) => {

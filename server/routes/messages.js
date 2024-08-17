@@ -3,18 +3,28 @@ const db = require('../db');
 
 router.get('/', async (req, res) => {
     try {
-        const response = await db.query("SELECT * FROM messages");
+        const response = await db.query(`
+            SELECT messages.id, messages.title, messages.description, messages.created_at, users.username 
+            FROM messages
+            INNER JOIN users ON messages.user_id = users.id
+        `);
+
         res.status(200).json({
-            status: 'Retreived all messages',
+            status: 'Retrieved all messages',
             results: response.rows.length,
             data: {
                 messages: response.rows
             }
         });
-    } catch(err) {
+    } catch (err) {
         console.log(err);
+        res.status(500).json({
+            status: 'Error retrieving messages',
+            message: err.message
+        });
     }
 });
+
 
 router.post('/add', async (req, res) => {
     try {

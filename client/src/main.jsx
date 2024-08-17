@@ -6,6 +6,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import ContextProvider from './Components/ContextProvider.jsx';
 import RegisterPage from './Routes/RegisterPage.jsx';
 import LoginPage from './Routes/LoginPage.jsx';
+import CreateMessagePage from './Routes/CreateMessagePage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />
+  },
+  {
+    path: '/create-message',
+    element: <CreateMessagePage />
   }
 ]);
 

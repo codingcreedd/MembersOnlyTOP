@@ -5,7 +5,7 @@ import logs from '../apis/logs';
 
 const Nav = () => {
   
-  const {user, setUser, authState, setAuthState, userInfo} = useContext(Context);
+  const {authState, setAuthState, userInfo} = useContext(Context);
 
   const logout = async () => {
     try {
@@ -31,7 +31,7 @@ const Nav = () => {
             </div>
           ) : (
             <div className='flex text-white items-center'>
-              {user.first_name}
+              Welcome, {userInfo.first_name} {userInfo.last_name}
               <button onClick={logout}  className='ml-10 px-10 py-2 bg-white rounded-lg text-black font-bold text-sm'>Logout</button>
             </div>
           )
